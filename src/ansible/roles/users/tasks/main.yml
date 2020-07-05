@@ -1,0 +1,9 @@
+---
+
+- import_tasks: users.yml
+  tags:
+    - devops-users
+
+- import_tasks: sudo.yml
+  tags:
+    - devops-users

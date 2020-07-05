@@ -1,0 +1,13 @@
+# infrastructure
+- name: Create infrastructure
+  hosts: localhost
+  roles:
+    - role: install_dynamic_inventory
+    - role: call_terraform
+
+# Common server configuration
+- hosts: all
+  remote_user: ubuntu
+  become: true
+  roles:
+  - role: users

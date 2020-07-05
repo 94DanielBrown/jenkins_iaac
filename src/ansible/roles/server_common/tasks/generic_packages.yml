@@ -1,0 +1,19 @@
+---
+
+- name: Update all packages
+  apt:
+    update_cache: yes
+    upgrade: yes
+    cache_valid_time: 86400
+
+
+- name: Install packages
+  package:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - wget
+    - vim
+    - python3
+    - python3-pip
+ 

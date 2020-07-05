@@ -1,0 +1,9 @@
+---
+
+- name: Add sudoers.d file
+  template:
+    src: devopssudo.j2
+    dest: /etc/sudoers.d/devopssudo
+    mode: 0440
+    owner: root
+    group: root

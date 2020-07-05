@@ -1,0 +1,24 @@
+---
+
+- name: Stop jenkins
+  systemd: 
+    name: jenkins
+    state: stopped
+
+- name: Get jenkins config
+  aws_s3:
+    bucket: testing-bucket-danielbrown
+    object: jenkins_backup.tar
+    dest: /tmp/jenkins_backup.tar
+    aws_access_key: "{{ access_key }}"
+    aws_secret_key: "{{ secret_key }}"
+    mode: get
+
+- name: Untar config to jenkins home
+  command:
+    tar -C {{ jenkins_home }} -xf /tmp/{{ jenkins_backup_name }}
+
+- name: Start jenkins
+  systemd:
+    name: jenkins
+    state: started

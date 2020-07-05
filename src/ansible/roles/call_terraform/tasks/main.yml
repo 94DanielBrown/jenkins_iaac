@@ -1,0 +1,34 @@
+---
+- name: Checking that tfstate present
+  stat:
+    path: "{{ terraform_state_file }}"
+  register: terraform_state_exists
+
+- name: Exit if tfstate file already exists
+  fail:
+    msg: "Quitting so not to destroy infrastructure"
+  when: terraform_state_exists.stat.exists == True
+
+- name: Plan Terraform
+  terraform:
+    project_path: "{{ terraform_folder }}"
+    force_init: true
+    state: planned
+    plan_file: "{{ terraform_plan_file }}"
+
+- name: Apply terraform plan
+  terraform:
+    project_path: "{{ terraform_folder }}"
+    plan_file: "{{ terraform_plan_file }}"
+    state: present
+  register: terraform_apply_vars
+
+- name: Refresh inventory to ensure new instances exist in inventory
+  meta: refresh_inventory
+
+- name: Make sure that instances are reachable
+  wait_for_connection:
+    delay: 10
+    timeout: 300
+  delegate_to: "{{ item }}"
+  loop: "{{ groups['all'] }}"

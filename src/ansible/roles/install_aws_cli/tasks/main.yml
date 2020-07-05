@@ -1,0 +1,21 @@
+---
+- name: Install AWS CLI tool
+  pip:
+    name: awscli
+
+- name: Install S3 pit restore tool
+  become: yes
+  pip:
+    name: s3-pit-restore
+
+- name: Create AWS CLI directory
+  become: yes
+  file:
+    path: ~/.aws
+    recurse: yes
+
+- name: install boto3 py3
+  become: true
+  pip:
+    name: boto3
+

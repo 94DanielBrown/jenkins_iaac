@@ -1,0 +1,13 @@
+- name: Create directory for dynamic inventory
+  file:
+    path: $HOME/dynamic-inventory
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: 0700
+
+- name: Copy dynamic inventory file
+  copy:
+    src: dynamic-inventory.py
+    dest: "{{ ansible_env.HOME }}/dynamic-inventory/dynamic-inventory.py"
+    mode: 0700
