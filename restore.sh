@@ -1,8 +1,9 @@
 #!/bin/sh
 AWS_PROFILE="personal"
 AWS_REGION="us-east-1"
-PEM_LOCATION="$HOME/.aws/pem/${AWS_PROFILE}_${AWS_REGION}.pem"
-DYNAMIC_INVENTORY="$HOME/dynamic-inventory/dynamic-inventory.py"
+KEY_NAME=$AWS_PROFILE"_"$AWS_REGION
+PEM_LOCATION="$HOME/.aws/pem/$KEY_NAME.pem"
+DYNAMIC_INVENTORY="$HOME/dynamic_inventory/dynamic_inventory.py"
 ANSIBLE_HOST_KEY_CHECKING=False
 
 BASEDIR=$(dirname "$0")

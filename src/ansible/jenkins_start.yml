@@ -7,7 +7,8 @@
     - role: call_terraform
 
 # Common server configuration
-- hosts: all
+- name: Config server
+  hosts: all
   remote_user: ubuntu
   become: True
   roles:
@@ -18,7 +19,8 @@
   - role: install_docker
 
 # Install Jenkins
-- hosts: all
+- name: Install jenkins
+  hosts: all
   remote_user: ubuntu
   become: True
   roles:
