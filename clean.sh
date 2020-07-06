@@ -1,4 +1,4 @@
 #!/bin/sh
-cd src/main/resources/terraform
-terraform destroy --auto-approve
-rm terraform.{plan,tfstate,tfstate.backup}
+cd src/terraform
+terraform destroy --auto-approve -var='key_name=key'
+rm terraform.{plan,tfstate,tfstate.backup} &>/dev/null

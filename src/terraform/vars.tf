@@ -18,6 +18,3 @@ variable "allowed_ips" {}
 variable "ami_id" {}
 variable "key_name" {}
 variable "instance_type" {}
-variable "instance_name" {}
-variable "subnet_id" {}
-

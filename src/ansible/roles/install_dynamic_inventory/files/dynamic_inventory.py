@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import os
+import re
 import json
 import argparse
 
@@ -8,6 +9,8 @@ debug = False
 
 
 class Provider(object):
+    """Provider is an abstract class which puts for the interface needed to be implemented
+       for the dynamic inventory to be able to use that provider:
 
         - are_prerequisites_met
             - This checks to make sure that any environment variables or files exist
@@ -27,6 +30,48 @@ class Provider(object):
 
     def get_host(host):
         raise NotImplementedError("Should have implemented this")
+
+
+class TestProvider(Provider):
+
+    def prerequisites_met(args):
+        debugger("Checking Prerequisites")
+        if (args.test):
+            return True
+        debugger("Prerequisites didn't match")
+        return False
+
+    def get_all():
+        debugger("Getting all hosts")
+        return {
+            "test-group": {
+                "hosts": ["127.0.0.1", "0.0.0.0"],
+                "vars": {
+                    "ansible_ssh_user": "admin",
+                    "ansible_ssh_private_key_file": "~/.ssh/id_rsa.pub",
+                    "is_this_a_test": "yes",
+                    "key": "value"
+                }
+            },
+            "_meta": {
+                "hostvars": {
+                    "127.0.0.1": {
+                        "host_specific_var": "bar"
+                    },
+                    "0.0.0.0": {
+                        "host_specific_var": "foo"
+                    }
+                }
+            }
+        }
+
+    def get_host(host):
+        debugger("Getting details of host: " + str(host))
+        if (host == "127.0.0.1"):
+            return {"host_specific_var": "bar"}
+        if (host == "0.0.0.0"):
+            return {"host_specific_var": "foo"}
+        return {}
 
 
 class Terraform(Provider):
@@ -128,6 +173,7 @@ class Terraform(Provider):
         return data
 
     def get_tags(instance):
+        # Tech Debt need more tfstates to tell if this is sane
         return instance['attributes']['tags']
 
     def get_instance_id(instance):
@@ -226,7 +272,7 @@ def debugger(message):
 
 def main():
     data = {}
-    providers = [Terraform]
+    providers = [TestProvider, Terraform]
     args = read_cli_args()
 
     for provider in providers:

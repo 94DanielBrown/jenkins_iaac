@@ -1,5 +1,4 @@
 resource "aws_security_group" "main" {
-  name        = "sg-jenkins"
   description = "Allow ssh,icmp and access to jenkins"
   vpc_id      = var.vpc_id
 

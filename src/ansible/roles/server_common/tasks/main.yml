@@ -1,7 +1,3 @@
 ---
 
-- import_tasks: generic-packages.yml
-  
-- import_tasks: motd.yml
-
-
+- import_tasks: generic_packages.yml

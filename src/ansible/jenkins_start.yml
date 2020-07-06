@@ -1,3 +1,4 @@
+---
 # infrastructure
 - name: Create infrastructure
   hosts: localhost
@@ -8,6 +9,18 @@
 # Common server configuration
 - hosts: all
   remote_user: ubuntu
-  become: true
+  become: True
   roles:
   - role: users
+  - role: secure_ssh
+  - role: server_common
+  - role: install_aws_cli
+  - role: install_docker
+
+# Install Jenkins
+- hosts: all
+  remote_user: ubuntu
+  become: True
+  roles:
+  - role: install_jenkins
+

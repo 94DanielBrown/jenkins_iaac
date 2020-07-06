@@ -1,3 +1,5 @@
+---
 terraform_folder: ../terraform
 terraform_state_file: ../terraform/terraform.tfstate
 terraform_plan_file: ../terraform/terraform.plan
+key_name: "{{ lookup('env','KEY_NAME') }}"

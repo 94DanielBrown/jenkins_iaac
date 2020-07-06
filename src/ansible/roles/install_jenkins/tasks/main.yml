@@ -1,0 +1,47 @@
+---
+- name: Install openjdk
+  apt:
+    name: java-1.8.0-openjdk
+    state: present
+
+- name: Get jenkins repo key
+  become: True
+  apt_key: 
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+
+- name: Add jenkins repo
+  become: True
+  apt_repository:
+    repo: deb https://pkg.jenkins.io/debian-stable binary/
+    state: present
+
+- name: Update cache
+  become: True
+  apt:
+    name: jenkins
+    update_cache: yes
+
+- name: Start jenkins
+  systemd:
+    name: jenkins
+    state: started
+
+- name: Enable jenkins
+  become: True
+  systemd:
+    name: jenkins
+    enabled: true
+ 
+
+- name: sleep for 30 seconds and continue with play
+  wait_for: timeout=30
+  delegate_to: localhost
+
+- name: init password jenkin
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+
+- name: print init password jenkins
+  debug:
+    var: result.stdout

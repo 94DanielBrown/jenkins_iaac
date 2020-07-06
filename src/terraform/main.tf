@@ -8,6 +8,7 @@ module "vpc" {
   source      = "./vpc"
   vpc_cidr    = var.vpc_cidr
   subnet_cidr = var.subnet_cidr
+  az          = var.availability_zone
 }
 
 module "security_group" {
@@ -20,9 +21,8 @@ module "compute" {
   source        = "./compute"
   ami_id        = var.ami_id
   key_name      = var.key_name
-  instance_name = var.instance_name
   instance_type = var.instance_type
   sg_id         = module.security_group.sg_id_out
-  subnet_id     = var.subnet_id
+  subnet_id     = module.vpc.subnet_id_out
 }
 

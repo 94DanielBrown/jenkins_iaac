@@ -9,11 +9,16 @@
     msg: "Quitting so not to destroy infrastructure"
   when: terraform_state_exists.stat.exists == True
 
+- name: Debug
+  debug: msg="{{ key_name }} is the var"
+
 - name: Plan Terraform
   terraform:
     project_path: "{{ terraform_folder }}"
     force_init: true
     state: planned
+    variables:
+      key_name: "{{ key_name }}"
     plan_file: "{{ terraform_plan_file }}"
 
 - name: Apply terraform plan
