@@ -1,5 +1,3 @@
 ---
 
 - import_tasks: generic_packages.yml
-
-- import_tasks: set_motd.yml

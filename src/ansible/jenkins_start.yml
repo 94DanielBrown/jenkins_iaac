@@ -13,7 +13,6 @@
   become: True
   roles:
   - role: users
-  - role: secure_ssh
   - role: server_common
   - role: install_aws_cli
   - role: install_docker
